@@ -68,6 +68,7 @@ public class DataTraffic implements Logicable {
         return msg.getUser();
     }
 
+   
    /**
      * Este metodo recibe un objeto usuario y lo convierte en el objeto mensaje  asignandole el signUp a realizar a parte tambien traduce el mensaje de vuelta del servidor lanzando las diferentes excepciones
      * @param user Objeto usuario recibido mediante el socket 
@@ -89,22 +90,27 @@ public class DataTraffic implements Logicable {
         msg.setUser(user);
         msg.setMsg(Msg.SIGNUP);
 
-      
+        try {
             //Enviar el mensaje al servidor
             msg = socket.createSocket(msg);
-       
+        } catch (IOException ex) {
             //Error conexion con el servidor
-     
+            throw new ConnectException("Error de conexion, intentalo mas tarde");
+        }
         //Traducir el mensaje de vuelta
-    
+        if (msg.getMsg() == Msg.USEREXISTEXCEPTION) {
             //Usuario ya existe
-        
+            throw new UserExistException("El usuario ya existe");
+        } else if (msg.getMsg() == Msg.CONNECTEXCEPTION) {
             //Error de conexion
-         
+            throw new ConnectException("Error al conectarse con la base de datos");
+        } else if (msg.getMsg() == Msg.PASSWORDDONTMATCHEXCEPTION) {
             //Error contraseñas no coinciden
-        
+            throw new PasswordDontMatchException("La contraseña no coincide");
+        } else if (msg.getMsg() == Msg.TOOMANYUSERSEXCEPTION) {
             //Error superado el limite de conexiones
-       
+            throw new TooManyUsersException("Servidor lleno, intentalo mas tarde");
+        }
         //Devolver el usuario
         return msg.getUser();
     }
