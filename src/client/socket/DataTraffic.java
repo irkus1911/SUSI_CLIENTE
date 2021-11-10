@@ -23,7 +23,7 @@ import static lib.message.Msg.PASSWORDDONTMATCHEXCEPTION;
  */
 public class DataTraffic implements Logicable {
 
-    /**
+      /**
      *  Este metodo recibe un objeto usuario y lo convierte en el objeto mensaje  asignandole el signIn a realizar a parte tambien traduce el mensaje de vuelta del servidor lanzando las diferentes excepciones
      * @param user Objeto usuario recibido mediante el socket 
      * @return objeto User Devuelve el usuario en caso de no encontrar nada devuelve nulo
@@ -43,22 +43,27 @@ public class DataTraffic implements Logicable {
         msg.setUser(user);
         msg.setMsg(Msg.SIGNIN);
 
-       
+        try {
             //Enviar el mensaje al servidor
             msg = socket.createSocket(msg);
-     
+        } catch (IOException ex) {
             //Error de conexion con el servidor
-        
+            throw new ConnectException("Error de conexion, intentalo mas tarde");
+        }
         //Traducir el mensaje de vuelta
-       
+        if (msg.getMsg() == Msg.USERDONTEXISTEXCEPTION) {
             ///Usuario no existe
-            
+            throw new UserDontExistException("El usuario no existe");
+        } else if (msg.getMsg() == Msg.CONNECTEXCEPTION) {
             //Error de conexion
-       
+            throw new ConnectException("Error al conectarse con la base de datos");
+        } else if (msg.getMsg() == PASSWORDDONTMATCHEXCEPTION) {
             //Contraseña no es la del usuario
-     
+            throw new PasswordDontMatchException("La contraseña no coincide");
+        } else if (msg.getMsg() == Msg.TOOMANYUSERSEXCEPTION) {
             //Error demasiadas conexiones
-          
+            throw new TooManyUsersException("Servidor lleno, intentalo mas tarde");
+        }
         //Devolver el usuario
         return msg.getUser();
     }
