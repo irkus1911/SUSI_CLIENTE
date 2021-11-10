@@ -113,6 +113,206 @@ public class VSignUpController {
     private void handleSignUp(ActionEvent event) {
         logger.info("Inicio del metodo para hacer signUp");
 
+        if (informedFields() && maxCharacteres() && userCharacterLimitation() 
+                && confirmPassword() && emailPattern()) {
+
+            User user = new User();
+            user.setLogin(fieldUsername.getText());
+            user.setEmail(fieldEmail.getText());
+            user.setFullName(fieldFullName.getText());
+            user.setPassword(fieldPassword.getText());
+            user.setPrivilege(UserPrivilege.USER);
+            user.setStatus(UserStatus.ENABLED);
+            user.setLastPasswordChange(Timestamp.from(Instant.now()));
+
+            LogicableFactory logicableFactory = new LogicableFactory();
+            try {
+                logger.info("Llamando a la factoria para que el data traffic haga el signUp");
+                if (logicableFactory.getDataTraffic().signUp(user) != null) {
+                    logger.info("Todo ha ido bien");
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText("Usuario registrado correctamente");
+                    alert.showAndWait();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/controllers/VLogOut.fxml"));
+                    Parent root = loader.load();                             
+                    VLogOutController controller = ((VLogOutController) loader.getController());
+                    controller.setStage(stage);
+                    controller.initStage(root);
+                }
+                logger.info("Llamada finalizada");
+            } catch (IncorrectUserException | IncorrectPasswordException
+                    | IncorrectEmailException | PasswordDontMatchException
+                    | TooManyUsersException | IOException | UserExistException
+                    | ConnectException ex) {
+                logger.info("El cliente ha recibido un mensaje de error del servidor");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(ex.getMessage());
+                alert.show();
+            }
+
+        }
+
+    }
+
+    /**
+     * Este metodo pretende controlar que cualquiera de los campos no pueda 
+     * sobrepasar los 50 caracteres.
+     * @return Devuelve el estado del campo, false si el campo sobrepasa la 
+     * longitud permitida, sino devuelve false con una alerta indicando el fallo
+     */
+    private boolean maxCharacteres() {
+        logger.info("Iniciado el evento para comprobar la longitud del campo");
+        
+        if (fieldUsername.getText().trim().length() >= 50) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("El nombre de usuario ha superado los 50 caracteres");
+            alert.setContentText("No se puede superar los 50 caracteres");
+            alert.show();
+            return false;
+        } else if (fieldEmail.getText().trim().length() >= 50) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("El email ha superado los 50 caracteres");
+            alert.setContentText("No se puede superar los 50 caracteres");
+            alert.show();
+            return false;
+        } else if (fieldFullName.getText().trim().length() >= 50) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("El nombre completo ha superado los 50 caracteres");
+            alert.setContentText("No se puede superar los 50 caracteres");
+            alert.show();
+            return false;
+        } else if (fieldPassword.getText().trim().length() >= 50) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("La contraseña ha superado los 50 caracteres");
+            alert.setContentText("No se puede superar los 50 caracteres");
+            alert.show();
+            return false;
+        } else if (fieldConfirmPassword.getText().trim().length() >= 50) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("La contraseña ha superado los 50 caracteres");
+            alert.setContentText("No se puede superar los 50 caracteres");
+            alert.show();
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    /**
+     * Este metodo pretende controlar que los campos usuario y contraseña, solo
+     * se puede introducir letras, numeros, guiones bajos, puntos y asteriscos.
+     * @return Devuelve si los campos son validos, false si es invalido alguno 
+     * de los dos campos
+     */
+    private boolean userCharacterLimitation() {
+        logger.info("Iniciado el evento para comprobar la validacion del usuario"
+                + "y la contraseña");
+        
+        if (!fieldUsername.getText().matches("^[a-zA-Z0-9_*.]+$")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Campo username inválido");
+            alert.setContentText("Campo username solo puede contener letras, "
+                    + "numeros, guiones bajos, puntos y asteriscos");
+            alert.show();
+            return false;
+        } else if (!fieldPassword.getText().matches("^[a-zA-Z0-9_*.]+$")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Campo password inválido");
+            alert.setContentText("Campo password solo puede contener letras, "
+                    + "numeros, guiones bajos, puntos y asteriscos");
+            alert.show();
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    /**
+     * Este metodo pretende controlar si los dos campos para escribir la contraseña
+     * coinciden.
+     * @return  Si las contraseñas coinciden devuelve true, si no devuelve false
+     * con una alerta indicando el fallo
+     */
+    private boolean confirmPassword() {
+        logger.info("Iniciado el evento para controlar las contraseñas");
+        
+        if (!fieldPassword.getText().equals(fieldConfirmPassword.getText())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("La contraseña no coincide");
+            alert.setContentText("Inténtalo de nuevo");
+            alert.show();
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+    /**
+     * Este metodo pretende controlar el patron que se puede introducir en el 
+     * campo email, si es invalido se mostrara una alerta.
+     * @return Devuelve el estado del email, false si es invalido y true 
+     * si es valido
+     */
+    private boolean emailPattern() {
+        logger.info("Iniciado el evento para controlar si el campo email es valido");
+        
+        if (!fieldEmail.getText().matches("[\\w.]+@[\\w]+\\.[a-zA-Z]{2,4}")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Campo email inválido");
+            alert.setContentText("Campo email solo puede contener letras, números "
+                    + "y puntos, además de un @ obligatorio");
+            alert.show();
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    /**
+     * Este metodo pretende controlar si algun campo de la ventana singUp esta
+     * vacio mediante una alerta.
+     * @return Devuelve el estado del campo, false si esta vacio y true si esta informado
+     */
+    private boolean informedFields() {
+        logger.info("Iniciado el evento para controlar si el campo esta vacio");
+                
+        if (fieldUsername.getText().trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Introduce el nombre de usuario");
+            alert.setContentText("No puedes dejar el campo vacio");
+            alert.show();
+            return false;
+        } else if (fieldEmail.getText().trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Introduce el email");
+            alert.setContentText("No puedes dejar el campo vacio");
+            alert.show();
+            return false;
+        } else if (fieldFullName.getText().trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Introduce el nombre completo");
+            alert.setContentText("No puedes dejar el campo vacio");
+            alert.show();
+            return false;
+        } else if (fieldPassword.getText().trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Introduce una contraseña");
+            alert.setContentText("No puedes dejar el campo vacio");
+            alert.show();
+            return false;
+        } else if (fieldConfirmPassword.getText().trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Introduce una contraseña");
+            alert.setContentText("No puedes dejar el campo vacio");
+            alert.show();
+            return false;
+        } else {
+            return true;
+        }
+
     }
 
     /**
