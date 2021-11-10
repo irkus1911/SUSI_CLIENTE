@@ -271,6 +271,7 @@ public class VSignUpControllerIT extends ApplicationTest{
         push(KeyCode.CONTROL, KeyCode.A);
         eraseText(1);
     }
+    
     /**
      * Este test comprueba si el usuario es avisado al introducir un patrón
      * incorrecto de Email
@@ -526,7 +527,6 @@ public class VSignUpControllerIT extends ApplicationTest{
         verifyThat("#logOutPane", isVisible());
         Thread.sleep(1500);
         
-    } 
-   
+    }
     
 }

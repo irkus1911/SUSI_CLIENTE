@@ -79,6 +79,7 @@ public class VSignInControllerIT extends ApplicationTest {
         eraseText(1);
        
     }
+    
     /**
      * Este test comprueba si el usuario es avisado al introducir una cantidad
      * de caracteres superior a la permitida
@@ -214,6 +215,5 @@ public class VSignInControllerIT extends ApplicationTest {
         verifyThat("#logOutPane", isVisible());
         Thread.sleep(1500);
     }
-    
     
 }
