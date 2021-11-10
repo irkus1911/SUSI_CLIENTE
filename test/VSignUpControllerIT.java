@@ -271,6 +271,109 @@ public class VSignUpControllerIT extends ApplicationTest{
         push(KeyCode.CONTROL, KeyCode.A);
         eraseText(1);
     }
+    /**
+     * Este test comprueba si el usuario es avisado al introducir un patrón
+     * incorrecto de Email
+     * @throws InterruptedException Esta excepción saltará cuando el Thread no
+     * puede hacer correctamente la acción de dormir
+     */
+    @Test
+    public void testD_EmailPatron() throws InterruptedException{
+                
+        clickOn("#fieldUsername");
+        write("example");
+        clickOn("#fieldEmail");
+        write("example.com");
+        clickOn("#fieldFullName");
+        write("example");
+        clickOn("#fieldPassword");
+        write("example");
+        clickOn("#fieldConfirmPassword");
+        write("example");
+        clickOn("#buttonSignUp");
+        verifyThat("Campo email inválido", isVisible());
+        Thread.sleep(1500);
+        clickOn("Aceptar");
+        
+        clickOn("#fieldUsername");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldEmail");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldFullName");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldConfirmPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+    }
+    
+    /**
+     * Este test comprueba el patrón de los campos password y username
+     * @throws InterruptedException Esta excepción saltará cuando el Thread no
+     * puede hacer correctamente la acción de dormir
+     */
+    @Test
+    public void testE_userPasswordPattern() throws InterruptedException{
+        
+        clickOn("#fieldUsername");
+        write("*example€");
+        clickOn("#fieldEmail");
+        write("example@gmail.com");
+        clickOn("#fieldFullName");
+        write("example");
+        clickOn("#fieldPassword");
+        write("a");
+        clickOn("#fieldConfirmPassword");
+        write("a");
+        clickOn("#buttonSignUp");
+        verifyThat("Campo username inválido", isVisible());
+        Thread.sleep(1500);
+        clickOn("Aceptar");
+        
+        
+        clickOn("#fieldUsername");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldConfirmPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        
+        clickOn("#fieldUsername");
+        write("example");
+        clickOn("#fieldPassword");
+        write("[abcd*1234]");
+        clickOn("#fieldConfirmPassword");
+        write("[abcd*1234]");
+        clickOn("#buttonSignUp");
+        verifyThat("Campo password inválido", isVisible());
+        Thread.sleep(1500);
+        clickOn("Aceptar");
+        
+        clickOn("#fieldUsername");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldEmail");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldFullName");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldConfirmPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+    }
+    
     
    
     
