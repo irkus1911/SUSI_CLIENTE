@@ -63,4 +63,9 @@ public class ClientSocket {
 
     }
 
+    public void readFile() {
+        this.configFile = ResourceBundle.getBundle("client.socket.ClientProperties");
+        this.ip = Integer.parseInt(this.configFile.getString("IP"));
+        this.port = this.configFile.getString("PORT");
+    }
 }
