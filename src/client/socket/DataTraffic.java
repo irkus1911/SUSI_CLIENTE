@@ -23,7 +23,7 @@ import static lib.message.Msg.PASSWORDDONTMATCHEXCEPTION;
  */
 public class DataTraffic implements Logicable {
 
-      /**
+    /**
      *  Este metodo recibe un objeto usuario y lo convierte en el objeto mensaje  asignandole el signIn a realizar a parte tambien traduce el mensaje de vuelta del servidor lanzando las diferentes excepciones
      * @param user Objeto usuario recibido mediante el socket 
      * @return objeto User Devuelve el usuario en caso de no encontrar nada devuelve nulo
@@ -68,7 +68,6 @@ public class DataTraffic implements Logicable {
         return msg.getUser();
     }
 
-   
    /**
      * Este metodo recibe un objeto usuario y lo convierte en el objeto mensaje  asignandole el signUp a realizar a parte tambien traduce el mensaje de vuelta del servidor lanzando las diferentes excepciones
      * @param user Objeto usuario recibido mediante el socket 
