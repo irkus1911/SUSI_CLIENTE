@@ -374,7 +374,159 @@ public class VSignUpControllerIT extends ApplicationTest{
         eraseText(1);
     }
     
+    /**
+     * Este test comprueba si se envia correctamente una excepción al intentar
+     * registrar un usuario que ya existe
+     * @throws InterruptedException Esta excepción saltará cuando el Thread no
+     * puede hacer correctamente la acción de dormir
+     */
+    @Test
+    public void testF_UserAlreadyExist() throws InterruptedException{
+        
+        clickOn("#fieldUsername");
+        write("example");
+        clickOn("#fieldEmail");
+        write("example@gmail.com");
+        clickOn("#fieldFullName");
+        write("example");
+        clickOn("#fieldPassword");
+        write("example");
+        clickOn("#fieldConfirmPassword");
+        write("example");
+        clickOn("#buttonSignUp");
+        verifyThat("El usuario ya existe", isVisible());
+        Thread.sleep(1500);
+        clickOn("Aceptar");
+        
+        clickOn("#fieldUsername");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldEmail");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldFullName");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldConfirmPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        
+    }
     
+    /**
+     * Este test comprueba si el usuario es avisado al introducir valores 
+     * distintos en los campos password y confirmpassword
+     * @throws InterruptedException Esta excepción saltará cuando el Thread no
+     * puede hacer correctamente la acción de dormir
+     */
+    @Test
+    public void testG_PasswordMatchValidation() throws InterruptedException{
+        
+        clickOn("#fieldUsername");
+        write("example");
+        clickOn("#fieldEmail");
+        write("example@gmail.com");
+        clickOn("#fieldFullName");
+        write("example");
+        clickOn("#fieldPassword");
+        write("example");
+        clickOn("#fieldConfirmPassword");
+        write("NotTheSameExample");
+        clickOn("#buttonSignUp");
+        verifyThat("La contraseña no coincide", isVisible());
+        Thread.sleep(1500);
+        clickOn("Aceptar");
+        
+        clickOn("#fieldUsername");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldEmail");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldFullName");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldConfirmPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        
+    }
+    
+    /**
+     * Este test comprueba la excepción de cuando no ha sido posible conectar con
+     * la base de datos
+     * @throws InterruptedException Esta excepción saltará cuando el Thread no
+     * puede hacer correctamente la acción de dormir
+     */
+    @Ignore
+    @Test
+    public void testH_ConnectionError() throws InterruptedException{
+        
+        clickOn("#fieldUsername");
+        write("example");
+        clickOn("#fieldEmail");
+        write("example@gmail.com");
+        clickOn("#fieldFullName");
+        write("example");
+        clickOn("#fieldPassword");
+        write("example");
+        clickOn("#fieldConfirmPassword");
+        write("example");
+        clickOn("#buttonSignUp");
+        verifyThat("Error de conextion, intentalo mas tarde", isVisible());
+        Thread.sleep(1500);
+        
+        clickOn("#fieldUsername");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldEmail");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldFullName");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldConfirmPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        
+    }
+    
+    /**
+     * Este test comprueba si la ventana SignUp registra correctamente a un 
+     * nuevo usuario
+     * @throws InterruptedException Esta excepción saltará cuando el Thread no
+     * puede hacer correctamente la acción de dormir
+     */
+    @Test
+    public void testI_SignUp() throws InterruptedException{
+        
+        clickOn("#fieldUsername");
+        write("Ronaldo");
+        clickOn("#fieldEmail");
+        write("ronaldinho@gmail.com");
+        clickOn("#fieldFullName");
+        write("Ronaldo Steven Arce");
+        clickOn("#fieldPassword");
+        write("abcd*1234");
+        clickOn("#fieldConfirmPassword");
+        write("abcd*1234");
+        clickOn("#buttonSignUp");
+        verifyThat("Usuario registrado correctamente", isVisible());
+        Thread.sleep(1500);
+        clickOn("Aceptar");
+        verifyThat("#logOutPane", isVisible());
+        Thread.sleep(1500);
+        
+    } 
    
     
 }
