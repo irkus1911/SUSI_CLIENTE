@@ -198,7 +198,22 @@ public class VSignInControllerIT extends ApplicationTest {
         eraseText(1);
     }
     
-   
+    /**
+     * Este test comprueba si la ventana SignIn inicia sesión correctamente a un
+     * usuario existente
+     * @throws InterruptedException Esta excepción saltará cuando el Thread no
+     * puede hacer correctamente la acción de dormir
+     */
+    @Test
+    public void testN_OpenLogOut() throws InterruptedException{
+        clickOn("#txtUsername");
+        write("example");
+        clickOn("#txtPassword");
+        write("example");
+        clickOn("#btnSignIn");
+        verifyThat("#logOutPane", isVisible());
+        Thread.sleep(1500);
+    }
     
     
 }
