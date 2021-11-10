@@ -79,7 +79,126 @@ public class VSignInControllerIT extends ApplicationTest {
         eraseText(1);
        
     }
+    /**
+     * Este test comprueba si el usuario es avisado al introducir una cantidad
+     * de caracteres superior a la permitida
+     * @throws InterruptedException Esta excepción saltará cuando el Thread no
+     * puede hacer correctamente la acción de dormir
+     */
     
+    @Test
+    public void testB_MaxCharacterValidation() throws InterruptedException{
+                
+        clickOn("#txtUsername");
+        write("Vamos a escribir cincuenta caracteres para la prueba");
+        clickOn("#txtPassword");
+        write("a");
+        clickOn("#btnSignIn");
+        verifyThat("El usuario ha superado los 50 caracteres", isVisible());
+        Thread.sleep(1500);
+        clickOn("Aceptar");
+        clickOn("#txtUsername");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#txtPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        
+        clickOn("#txtPassword");
+        write("Vamos a escribir cincuenta caracteres para la prueba");
+        clickOn("#txtUsername");
+        write("a");
+        clickOn("#btnSignIn");
+        verifyThat("La contraseña ha superado los 50 caracteres", isVisible());
+        Thread.sleep(1500);
+        clickOn("Aceptar");
+        clickOn("#txtPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#txtUsername");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+    }
+    
+    /**
+     * Este test comprueba la excepción de cuando no ha sido posible conectar con
+     * la base de datos
+     * @throws InterruptedException Esta excepción saltará cuando el Thread no
+     * puede hacer correctamente la acción de dormir
+     */
+    @Ignore
+    @Test
+    public void testC_ConnectionException() throws InterruptedException{
+        
+        clickOn("#txtUsername");
+        write("a");
+        clickOn("#txtPassword");
+        write("a");
+        clickOn("#btnSignIn");
+        verifyThat("Error de conexion, intentalo mas tarde", isVisible());
+        Thread.sleep(1500);
+        clickOn("Aceptar");
+        clickOn("#txtPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#txtUsername");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        
+    }
+    
+    /**
+     * Este test comprueba si se envia correctamente una excepción al intentar
+     * iniciar sesión con un usuario que no existe
+     * @throws InterruptedException Esta excepción saltará cuando el Thread no
+     * puede hacer correctamente la acción de dormir
+     */
+    @Test
+    public void testD_UserDontExist() throws InterruptedException {
+        clickOn("#txtUsername");
+        write("a");
+        clickOn("#txtPassword");
+        write("example");
+        clickOn("#btnSignIn");
+        verifyThat("El usuario no existe", isVisible());
+        Thread.sleep(1500);
+        clickOn("Aceptar");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#txtUsername");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#txtPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+
+    }
+    
+    /**
+     * Este test comprueba si se ejecuta correctamente la excepción al introducir
+     * un password que no coincida con el password del usuario en la base de datos
+     * @throws InterruptedException Esta excepción saltará cuando el Thread no
+     * puede hacer correctamente la acción de dormir
+     */
+    @Test
+    public void testE_PasswordDontMatch() throws InterruptedException {
+        clickOn("#txtUsername");
+        write("example");
+        clickOn("#txtPassword");
+        write("a");
+        clickOn("#btnSignIn");
+        verifyThat("La contraseña no coincide", isVisible());
+        Thread.sleep(1500);
+        clickOn("Aceptar");
+        clickOn("#txtPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#txtUsername");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+    }
+    
+   
     
     
 }
