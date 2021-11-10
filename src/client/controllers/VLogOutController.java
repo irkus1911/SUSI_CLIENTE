@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 /**
- * Clase controladora para la ventana de LogOut
+ * Clase controladora para la ventana LogOut
  *
  * @author UnaiUrtiaga
  */
