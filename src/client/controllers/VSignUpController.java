@@ -134,8 +134,11 @@ public class VSignUpController {
                     alert.setHeaderText("Usuario registrado correctamente");
                     alert.showAndWait();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/controllers/VLogOut.fxml"));
+                    
                     Parent root = loader.load();                             
                     VLogOutController controller = ((VLogOutController) loader.getController());
+                    
+                    controller.mensajePersonalizado(user);
                     controller.setStage(stage);
                     controller.initStage(root);
                 }

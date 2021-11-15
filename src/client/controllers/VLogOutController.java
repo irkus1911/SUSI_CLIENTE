@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import lib.dataModel.User;
 
 /**
  * Clase controladora para la ventana LogOut
@@ -192,4 +193,8 @@ public class VLogOutController {
 
     }
 
+    public void mensajePersonalizado(User user){
+        textoWelcome.setText("Bienvenido " + user.getFullName());
+    }
+    
 }

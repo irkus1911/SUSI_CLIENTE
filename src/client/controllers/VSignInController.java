@@ -126,7 +126,6 @@ public class VSignInController {
                 LogicableFactory dataFac = new LogicableFactory();
 
                 if (dataFac.getDataTraffic().signIn(user) != null) {
-                    
                     //La ventana actual se cierra
                     stage.close();
                     
@@ -137,6 +136,7 @@ public class VSignInController {
                     Logger.getLogger(VSignInController.class.getName()).info("LOGOUT VENTANA");
                     
                     VLogOutController controller = ((VLogOutController) loader.getController());
+                    controller.mensajePersonalizado(dataFac.getDataTraffic().signIn(user));
                     controller.setStage(stage);
                     controller.initStage(root);
                 }
