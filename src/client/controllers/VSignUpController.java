@@ -6,8 +6,10 @@ import client.factory.LogicableFactory;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Observable;
 import java.util.Optional;
 import java.util.logging.Logger;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +21,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import lib.dataModel.User;
@@ -34,14 +37,15 @@ import lib.exceptions.UserExistException;
 
 /**
  * Clase controladora de la ventana singUp.
+ *
  * @author Steven Arce, Irkus De La Fuente
  */
 public class VSignUpController {
-    
+
     private final static Logger logger = Logger.getLogger("client.controllers.VSignUpController");
     private Stage stage;
     private Tooltip tooltip;
-    
+
     @FXML
     private TextField fieldUsername, fieldEmail, fieldFullName;
     @FXML
@@ -56,9 +60,10 @@ public class VSignUpController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-    
+
     /**
      * Este metodo pretende inicializar el la escena y el escenario.
+     *
      * @param root nodo del grafo de la escena
      */
     public void initStage(Parent root) {
@@ -92,6 +97,13 @@ public class VSignUpController {
         tooltip = new Tooltip("Repite la contraseña");
         fieldConfirmPassword.setTooltip(tooltip);
 
+        //Limitar la entrada de maximo 50 caracteres (ChangeListener)
+        fieldUsername.textProperty().addListener(this::limitCharacters);
+        fieldEmail.textProperty().addListener(this::limitCharacters);
+        fieldFullName.textProperty().addListener(this::limitCharacters);
+        fieldPassword.textProperty().addListener(this::limitCharacters);
+        fieldConfirmPassword.textProperty().addListener(this::limitCharacters);
+
         //Controlador de evento para registrar un usuario
         buttonSignUp.setOnAction(this::handleSignUp);
         //Controlador de evento para volver a la ventana signIn
@@ -104,16 +116,44 @@ public class VSignUpController {
     }
 
     /**
+     * 
+     * @param observable
+     * @param oldValue
+     * @param newValue 
+     */
+    private void limitCharacters(ObservableValue<? extends String> observable, String oldValue,
+            String newValue) {
+
+        if (fieldUsername.getText().length() > 50) {
+            fieldUsername.setText(oldValue);
+        }
+        if (fieldEmail.getText().length() > 50) {
+            fieldEmail.setText(oldValue);
+        }
+        if (fieldFullName.getText().length() > 50) {
+            fieldFullName.setText(oldValue);
+        }
+        if (fieldPassword.getText().length() > 50) {
+            fieldPassword.setText(oldValue);
+        }
+        if (fieldConfirmPassword.getText().length() > 50) {
+            fieldConfirmPassword.setText(oldValue);
+        }
+
+    }
+
+    /**
      * Este metodo pretende validar todos los campos, si todo es valido mandara
-     * un mensaje al servidor diciendo que hara un signUp. Si todo va bien, aparecera
-     * una alerta diciendo que todo ha salido bien. En caso de haber algun error 
-     * saldra una alerta indicando el tipo de error.
+     * un mensaje al servidor diciendo que hara un signUp. Si todo va bien,
+     * aparecera una alerta diciendo que todo ha salido bien. En caso de haber
+     * algun error saldra una alerta indicando el tipo de error.
+     *
      * @param event representa la accion del evento handleSignUp
      */
     private void handleSignUp(ActionEvent event) {
         logger.info("Inicio del metodo para hacer signUp");
 
-        if (informedFields() && maxCharacteres() && userCharacterLimitation() 
+        if (informedFields() && maxCharacteres() && userCharacterLimitation()
                 && confirmPassword() && emailPattern()) {
 
             User user = new User();
@@ -134,7 +174,7 @@ public class VSignUpController {
                     alert.setHeaderText("Usuario registrado correctamente");
                     alert.showAndWait();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/controllers/VLogOut.fxml"));
-                    Parent root = loader.load();                             
+                    Parent root = loader.load();
                     VLogOutController controller = ((VLogOutController) loader.getController());
                     controller.setStage(stage);
                     controller.initStage(root);
@@ -155,14 +195,15 @@ public class VSignUpController {
     }
 
     /**
-     * Este metodo pretende controlar que cualquiera de los campos no pueda 
+     * Este metodo pretende controlar que cualquiera de los campos no pueda
      * sobrepasar los 50 caracteres.
-     * @return Devuelve el estado del campo, false si el campo sobrepasa la 
+     *
+     * @return Devuelve el estado del campo, false si el campo sobrepasa la
      * longitud permitida, sino devuelve false con una alerta indicando el fallo
      */
     private boolean maxCharacteres() {
         logger.info("Iniciado el evento para comprobar la longitud del campo");
-        
+
         if (fieldUsername.getText().trim().length() >= 50) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("El nombre de usuario ha superado los 50 caracteres");
@@ -202,13 +243,14 @@ public class VSignUpController {
     /**
      * Este metodo pretende controlar que los campos usuario y contraseña, solo
      * se puede introducir letras, numeros, guiones bajos, puntos y asteriscos.
-     * @return Devuelve si los campos son validos, false si es invalido alguno 
+     *
+     * @return Devuelve si los campos son validos, false si es invalido alguno
      * de los dos campos
      */
     private boolean userCharacterLimitation() {
         logger.info("Iniciado el evento para comprobar la validacion del usuario"
                 + "y la contraseña");
-        
+
         if (!fieldUsername.getText().matches("^[a-zA-Z0-9_*.]+$")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Campo username inválido");
@@ -230,14 +272,15 @@ public class VSignUpController {
     }
 
     /**
-     * Este metodo pretende controlar si los dos campos para escribir la contraseña
-     * coinciden.
-     * @return  Si las contraseñas coinciden devuelve true, si no devuelve false
+     * Este metodo pretende controlar si los dos campos para escribir la
+     * contraseña coinciden.
+     *
+     * @return Si las contraseñas coinciden devuelve true, si no devuelve false
      * con una alerta indicando el fallo
      */
     private boolean confirmPassword() {
         logger.info("Iniciado el evento para controlar las contraseñas");
-        
+
         if (!fieldPassword.getText().equals(fieldConfirmPassword.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("La contraseña no coincide");
@@ -249,15 +292,17 @@ public class VSignUpController {
         }
 
     }
+
     /**
-     * Este metodo pretende controlar el patron que se puede introducir en el 
+     * Este metodo pretende controlar el patron que se puede introducir en el
      * campo email, si es invalido se mostrara una alerta.
-     * @return Devuelve el estado del email, false si es invalido y true 
-     * si es valido
+     *
+     * @return Devuelve el estado del email, false si es invalido y true si es
+     * valido
      */
     private boolean emailPattern() {
         logger.info("Iniciado el evento para controlar si el campo email es valido");
-        
+
         if (!fieldEmail.getText().matches("[\\w.]+@[\\w]+\\.[a-zA-Z]{2,4}")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Campo email inválido");
@@ -274,11 +319,13 @@ public class VSignUpController {
     /**
      * Este metodo pretende controlar si algun campo de la ventana singUp esta
      * vacio mediante una alerta.
-     * @return Devuelve el estado del campo, false si esta vacio y true si esta informado
+     *
+     * @return Devuelve el estado del campo, false si esta vacio y true si esta
+     * informado
      */
     private boolean informedFields() {
         logger.info("Iniciado el evento para controlar si el campo esta vacio");
-                
+
         if (fieldUsername.getText().trim().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Introduce el nombre de usuario");
@@ -316,8 +363,9 @@ public class VSignUpController {
     }
 
     /**
-     * Este metodo pretende regresar a la ventana singIn mediante la pulsacion 
+     * Este metodo pretende regresar a la ventana singIn mediante la pulsacion
      * del boton back.
+     *
      * @param event representa la accion del evento handleBack
      */
     private void handleBack(ActionEvent event) {
@@ -338,15 +386,17 @@ public class VSignUpController {
         controller.initStage(root);
 
     }
+
     /**
      * Este metodo pretende controlar la salida de la ventana cuando se pulse la
      * X de la barra de titulo.
+     *
      * @param event representa la accion del evento handleCloseRequest
      */
     private void handleCloseRequest(WindowEvent event) {
         logger.info("Se ha pulsado la X de la barra de titulo y se enviara un "
                 + "aviso de confirmacion");
-        
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText(null);
         alert.setTitle("EXIT");
