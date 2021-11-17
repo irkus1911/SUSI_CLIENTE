@@ -60,6 +60,7 @@ public class VSignUpControllerIT extends ApplicationTest{
      * puede hacer correctamente la acción de dormir
      */
     @Test
+    @Ignore
     public void testB_FieldsEmpty() throws InterruptedException{
         
         clickOn("#buttonSignUp");
@@ -118,6 +119,7 @@ public class VSignUpControllerIT extends ApplicationTest{
      */
    
     @Test
+    @Ignore
     public void testC_MaxCharacterValidation() throws InterruptedException {
 
         clickOn("#fieldUsername");
@@ -279,6 +281,7 @@ public class VSignUpControllerIT extends ApplicationTest{
      * puede hacer correctamente la acción de dormir
      */
     @Test
+    @Ignore
     public void testD_EmailPatron() throws InterruptedException{
                 
         clickOn("#fieldUsername");
@@ -319,6 +322,7 @@ public class VSignUpControllerIT extends ApplicationTest{
      * puede hacer correctamente la acción de dormir
      */
     @Test
+    @Ignore
     public void testE_userPasswordPattern() throws InterruptedException{
         
         clickOn("#fieldUsername");
@@ -382,6 +386,7 @@ public class VSignUpControllerIT extends ApplicationTest{
      * puede hacer correctamente la acción de dormir
      */
     @Test
+    @Ignore
     public void testF_UserAlreadyExist() throws InterruptedException{
         
         clickOn("#fieldUsername");
@@ -424,6 +429,7 @@ public class VSignUpControllerIT extends ApplicationTest{
      * puede hacer correctamente la acción de dormir
      */
     @Test
+    @Ignore
     public void testG_PasswordMatchValidation() throws InterruptedException{
         
         clickOn("#fieldUsername");
@@ -501,6 +507,40 @@ public class VSignUpControllerIT extends ApplicationTest{
         
     }
     
+    @Test
+    public void testI_SignUp() throws InterruptedException{
+        clickOn("#fieldUsername");
+        write("qwerty");
+        clickOn("#fieldEmail");
+        write("example@gmail.com");
+        clickOn("#fieldFullName");
+        write("example");
+        clickOn("#fieldPassword");
+        write("example");
+        clickOn("#fieldConfirmPassword");
+        write("example");
+        clickOn("#buttonSignUp");
+        verifyThat("Email ya existe", isVisible());
+        Thread.sleep(1500);
+        clickOn("Aceptar");
+        
+        clickOn("#fieldUsername");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldEmail");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldFullName");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+        clickOn("#fieldConfirmPassword");
+        push(KeyCode.CONTROL, KeyCode.A);
+        eraseText(1);
+    }
+    
     /**
      * Este test comprueba si la ventana SignUp registra correctamente a un 
      * nuevo usuario
@@ -508,7 +548,8 @@ public class VSignUpControllerIT extends ApplicationTest{
      * puede hacer correctamente la acción de dormir
      */
     @Test
-    public void testI_SignUp() throws InterruptedException{
+    @Ignore
+    public void testJ_SignUp() throws InterruptedException{
         
         clickOn("#fieldUsername");
         write("Ronaldo");

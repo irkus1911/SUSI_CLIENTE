@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import lib.dataModel.User;
 import lib.exceptions.ConnectException;
+import lib.exceptions.EmailExistException;
 import lib.exceptions.IncorrectEmailException;
 import lib.exceptions.IncorrectPasswordException;
 import lib.exceptions.IncorrectUserException;
@@ -90,7 +91,7 @@ public class DataTraffic implements Logicable {
      */
      //SignUp  Recibe Usuario/Devuelve Usuario
     @Override
-    public User signUp(User user) throws IncorrectUserException, IncorrectPasswordException, IncorrectEmailException, UserExistException, PasswordDontMatchException, ConnectException, TooManyUsersException {
+    public User signUp(User user) throws IncorrectUserException, IncorrectPasswordException, IncorrectEmailException, UserExistException, PasswordDontMatchException, ConnectException, TooManyUsersException,EmailExistException {
         logger.info("Creando socket signUp");
         //Crear socket cliente
         ClientSocket socket = new ClientSocket();
@@ -125,6 +126,9 @@ public class DataTraffic implements Logicable {
             logger.info("Demasiados usuarios");
             //Error superado el limite de conexiones
             throw new TooManyUsersException("Servidor lleno, intentalo mas tarde");
+        }else if(msg.getMsg()==Msg.EMAILEXISTEXCEPTION){
+            //Error email coincide con la base de datos
+            throw new EmailExistException("Email ya existe");
         }
         //Devolver el usuario
         return msg.getUser();

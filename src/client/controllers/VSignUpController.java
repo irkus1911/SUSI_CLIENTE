@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,6 +26,7 @@ import lib.dataModel.User;
 import lib.dataModel.UserPrivilege;
 import lib.dataModel.UserStatus;
 import lib.exceptions.ConnectException;
+import lib.exceptions.EmailExistException;
 import lib.exceptions.IncorrectEmailException;
 import lib.exceptions.IncorrectPasswordException;
 import lib.exceptions.IncorrectUserException;
@@ -137,18 +139,19 @@ public class VSignUpController {
                     Parent root = loader.load();                             
                     VLogOutController controller = ((VLogOutController) loader.getController());
                     controller.setStage(stage);
+                    logger.info("Abriendo la ventana de log out");
                     controller.initStage(root);
                 }
                 logger.info("Llamada finalizada");
             } catch (IncorrectUserException | IncorrectPasswordException
                     | IncorrectEmailException | PasswordDontMatchException
                     | TooManyUsersException | IOException | UserExistException
-                    | ConnectException ex) {
+                    | ConnectException|EmailExistException ex) {
                 logger.info("El cliente ha recibido un mensaje de error del servidor");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(ex.getMessage());
                 alert.show();
-            }
+            } 
 
         }
 
@@ -164,30 +167,35 @@ public class VSignUpController {
         logger.info("Iniciado el evento para comprobar la longitud del campo");
         
         if (fieldUsername.getText().trim().length() >= 50) {
+            logger.info("Excepcion maximo de caracteres username");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("El nombre de usuario ha superado los 50 caracteres");
             alert.setContentText("No se puede superar los 50 caracteres");
             alert.show();
             return false;
         } else if (fieldEmail.getText().trim().length() >= 50) {
+            logger.info("Excepcion maximo de caracteres email");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("El email ha superado los 50 caracteres");
             alert.setContentText("No se puede superar los 50 caracteres");
             alert.show();
             return false;
         } else if (fieldFullName.getText().trim().length() >= 50) {
+            logger.info("Excepcion maximo de caracteres nombre completo");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("El nombre completo ha superado los 50 caracteres");
             alert.setContentText("No se puede superar los 50 caracteres");
             alert.show();
             return false;
         } else if (fieldPassword.getText().trim().length() >= 50) {
+            logger.info("Excepcion maximo de caracteres contraseña");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("La contraseña ha superado los 50 caracteres");
             alert.setContentText("No se puede superar los 50 caracteres");
             alert.show();
             return false;
         } else if (fieldConfirmPassword.getText().trim().length() >= 50) {
+            logger.info("Excepcion maximo de caracteres confirmar contraseña");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("La contraseña ha superado los 50 caracteres");
             alert.setContentText("No se puede superar los 50 caracteres");
@@ -210,6 +218,7 @@ public class VSignUpController {
                 + "y la contraseña");
         
         if (!fieldUsername.getText().matches("^[a-zA-Z0-9_*.]+$")) {
+            logger.info("Excepcion caracteres username");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Campo username inválido");
             alert.setContentText("Campo username solo puede contener letras, "
@@ -217,6 +226,7 @@ public class VSignUpController {
             alert.show();
             return false;
         } else if (!fieldPassword.getText().matches("^[a-zA-Z0-9_*.]+$")) {
+            logger.info("Excepcion caracteres contraseña");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Campo password inválido");
             alert.setContentText("Campo password solo puede contener letras, "
@@ -239,6 +249,7 @@ public class VSignUpController {
         logger.info("Iniciado el evento para controlar las contraseñas");
         
         if (!fieldPassword.getText().equals(fieldConfirmPassword.getText())) {
+            logger.info("Excepcion las contraseñas no coinciden");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("La contraseña no coincide");
             alert.setContentText("Inténtalo de nuevo");
@@ -259,6 +270,7 @@ public class VSignUpController {
         logger.info("Iniciado el evento para controlar si el campo email es valido");
         
         if (!fieldEmail.getText().matches("[\\w.]+@[\\w]+\\.[a-zA-Z]{2,4}")) {
+            logger.info("Excepcion patron de email invalido");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Campo email inválido");
             alert.setContentText("Campo email solo puede contener letras, números "
@@ -280,30 +292,35 @@ public class VSignUpController {
         logger.info("Iniciado el evento para controlar si el campo esta vacio");
                 
         if (fieldUsername.getText().trim().isEmpty()) {
+            logger.info("Excepcion campo vacio username");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Introduce el nombre de usuario");
             alert.setContentText("No puedes dejar el campo vacio");
             alert.show();
             return false;
         } else if (fieldEmail.getText().trim().isEmpty()) {
+            logger.info("Excepcion campo vacio email");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Introduce el email");
             alert.setContentText("No puedes dejar el campo vacio");
             alert.show();
             return false;
         } else if (fieldFullName.getText().trim().isEmpty()) {
+            logger.info("Excepcion campo vacio nombre completo");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Introduce el nombre completo");
             alert.setContentText("No puedes dejar el campo vacio");
             alert.show();
             return false;
         } else if (fieldPassword.getText().trim().isEmpty()) {
+            logger.info("Excepcion campo vacio contraseña");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Introduce una contraseña");
             alert.setContentText("No puedes dejar el campo vacio");
             alert.show();
             return false;
         } else if (fieldConfirmPassword.getText().trim().isEmpty()) {
+            logger.info("Excepcion campo vacio confirmar ");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Introduce una contraseña");
             alert.setContentText("No puedes dejar el campo vacio");
