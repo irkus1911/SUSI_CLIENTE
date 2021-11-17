@@ -116,14 +116,15 @@ public class VSignUpController {
     }
 
     /**
-     * 
+     *
      * @param observable
      * @param oldValue
-     * @param newValue 
+     * @param newValue
      */
     private void limitCharacters(ObservableValue<? extends String> observable, String oldValue,
             String newValue) {
-
+        logger.info("Inicio del metodo para limitar la entrada de un maximo de caracteres");
+        
         if (fieldUsername.getText().length() > 50) {
             fieldUsername.setText(oldValue);
         }
@@ -151,7 +152,8 @@ public class VSignUpController {
      * @param event representa la accion del evento handleSignUp
      */
     private void handleSignUp(ActionEvent event) {
-        logger.info("Inicio del metodo para hacer signUp");
+        logger.info("Se ha pulsado el boton SignUp");
+        logger.info("Se ha iniciado el metodo para hacer signUp");
 
         if (informedFields() && maxCharacteres() && userCharacterLimitation()
                 && confirmPassword() && emailPattern()) {
@@ -169,7 +171,7 @@ public class VSignUpController {
             try {
                 logger.info("Llamando a la factoria para que el data traffic haga el signUp");
                 if (logicableFactory.getDataTraffic().signUp(user) != null) {
-                    logger.info("Todo ha ido bien");
+                    logger.info("Usuario registrado correctamente");
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setHeaderText("Usuario registrado correctamente");
                     alert.showAndWait();
@@ -178,6 +180,7 @@ public class VSignUpController {
                     VLogOutController controller = ((VLogOutController) loader.getController());
                     controller.setStage(stage);
                     controller.initStage(root);
+                    logger.info("Se ha abierto la ventana de LogOut");
                 }
                 logger.info("Llamada finalizada");
             } catch (IncorrectUserException | IncorrectPasswordException
@@ -370,6 +373,7 @@ public class VSignUpController {
      */
     private void handleBack(ActionEvent event) {
         logger.info("Se ha pulsado el boton back");
+        logger.info("se volvera a la ventana de VSignIn");
         stage.close();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/controllers/VSignIn.fxml"));

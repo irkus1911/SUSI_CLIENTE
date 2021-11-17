@@ -72,7 +72,7 @@ public class ClientSocket {
      *
      */
     public void readFile() {
-        this.configFile = ResourceBundle.getBundle("client.socket.ClientProperties");
+        this.configFile = ResourceBundle.getBundle("lib.message.AllConfig");
         this.SERVER = this.configFile.getString("SERVER");
         this.PORT = Integer.parseInt(this.configFile.getString("PORT"));
     }
