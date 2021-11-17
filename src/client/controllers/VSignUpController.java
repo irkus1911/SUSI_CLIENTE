@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,6 +26,7 @@ import lib.dataModel.User;
 import lib.dataModel.UserPrivilege;
 import lib.dataModel.UserStatus;
 import lib.exceptions.ConnectException;
+import lib.exceptions.EmailExistsException;
 import lib.exceptions.IncorrectEmailException;
 import lib.exceptions.IncorrectPasswordException;
 import lib.exceptions.IncorrectUserException;
@@ -146,7 +148,7 @@ public class VSignUpController {
             } catch (IncorrectUserException | IncorrectPasswordException
                     | IncorrectEmailException | PasswordDontMatchException
                     | TooManyUsersException | IOException | UserExistException
-                    | ConnectException ex) {
+                    | EmailExistsException | ConnectException ex) {
                 logger.info("El cliente ha recibido un mensaje de error del servidor");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(ex.getMessage());
