@@ -60,16 +60,17 @@ public class ClientSocket {
             socket.close();
             logger.info("Se ha cerrado el socket del cliente");
         } catch (IOException ex) {
-            logger.info("Error de conexion");
+            logger.severe("Error de conexion");
             throw new ConnectException("Error de conexion, intentalo mas tarde");          
         } catch (ClassNotFoundException ex) {
-            logger.info("");
+            Logger.getLogger(ClientSocket.class.getName()).log(Level.SEVERE, null, ex);
         }
         return mg;
     }
 
     /**
-     *
+     * Este metodo pretende leer del archivo de configuracion ubicado en la 
+     * libreria.
      */
     public void readFile() {
         this.configFile = ResourceBundle.getBundle("lib.message.AllConfig");

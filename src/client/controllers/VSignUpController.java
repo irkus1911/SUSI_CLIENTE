@@ -116,10 +116,11 @@ public class VSignUpController {
     }
 
     /**
-     *
-     * @param observable
-     * @param oldValue
-     * @param newValue
+     * Este metodo pretende controlar la entrada de todos los campos de la 
+     * ventana SignUp para que no se pueda introducir mas de 50 caracteres. 
+     * @param observable observa el contenido, en este caso el campo escrito
+     * @param oldValue valor antiguo del campo 
+     * @param newValue nuevi valor del campo 
      */
     private void limitCharacters(ObservableValue<? extends String> observable, String oldValue,
             String newValue) {
@@ -187,7 +188,7 @@ public class VSignUpController {
                     | IncorrectEmailException | PasswordDontMatchException
                     | TooManyUsersException | IOException | UserExistException
                     | ConnectException ex) {
-                logger.info("El cliente ha recibido un mensaje de error del servidor");
+                logger.severe("El cliente ha recibido un mensaje de error del servidor");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(ex.getMessage());
                 alert.show();
@@ -382,7 +383,7 @@ public class VSignUpController {
         try {
             root = (Parent) loader.load();
         } catch (IOException ex) {
-            logger.info("Se ha producido un error al cargarel fxml de la ventana singIn");
+            logger.severe("Se ha producido un error al cargarel fxml de la ventana singIn");
         }
 
         VSignInController controller = (VSignInController) loader.getController();

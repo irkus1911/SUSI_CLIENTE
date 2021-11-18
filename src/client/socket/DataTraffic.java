@@ -51,7 +51,7 @@ public class DataTraffic implements Logicable {
             //Enviar el mensaje al servidor
             msg = socket.createSocket(msg);
         } catch (IOException ex) {
-            logger.info("error al mandar mensaje");
+            logger.severe("error al mandar mensaje");
             //Error de conexion con el servidor
             throw new ConnectException("Error de conexion, intentalo mas tarde");
         }
@@ -104,7 +104,7 @@ public class DataTraffic implements Logicable {
             //Enviar el mensaje al servidor
             msg = socket.createSocket(msg);
         } catch (IOException ex) {
-            logger.info("error al mandar mensaje");
+            logger.severe("error al mandar mensaje");
             //Error conexion con el servidor
             throw new ConnectException("Error de conexion, intentalo mas tarde");
         }
