@@ -52,25 +52,25 @@ public class DataTraffic implements Logicable {
             //Enviar el mensaje al servidor
             msg = socket.createSocket(msg);
         } catch (IOException ex) {
-            logger.info("error al mandar mensaje");
+            logger.severe("error al mandar mensaje");
             //Error de conexion con el servidor
             throw new ConnectException("Error de conexion, intentalo mas tarde");
         }
         //Traducir el mensaje de vuelta
         if (msg.getMsg() == Msg.USERDONTEXISTEXCEPTION) {
-          logger.info("Usuario no existe");
+          logger.severe("Usuario no existe");
             ///Usuario no existe
             throw new UserDontExistException("El usuario no existe");
         } else if (msg.getMsg() == Msg.CONNECTEXCEPTION) {
-            logger.info("Error de conexion");
+            logger.severe("Error de conexion");
             //Error de conexion
             throw new ConnectException("Error al conectarse con la base de datos");
         } else if (msg.getMsg() == PASSWORDDONTMATCHEXCEPTION) {
-            logger.info("Contraseña incorrecta");
+            logger.severe("Contraseña incorrecta");
             //Contraseña no es la del usuario
             throw new PasswordDontMatchException("La contraseña no coincide");
         } else if (msg.getMsg() == Msg.TOOMANYUSERSEXCEPTION) {
-            logger.info("Demasiados usuarios");
+            logger.severe("Demasiados usuarios");
             //Error demasiadas conexiones
             throw new TooManyUsersException("Servidor lleno, intentalo mas tarde");
         }
@@ -87,7 +87,8 @@ public class DataTraffic implements Logicable {
      * @throws IncorrectEmailException Patron de correo incorrecto 
      * @throws UserExistException   Usuario ya existe en la base de datos
      * @throws PasswordDontMatchException Las contraseñas no coinciden entre si(contraseña y confirmar contraseña)
-     * @throws ConnectException Hay un error de conexion con la base de datos
+     * @throws ConnectException Hay un error de conexion con la base de datoso
+     * @throws EmailExistException Error el correo esta ya registrado
      */
      //SignUp  Recibe Usuario/Devuelve Usuario
     @Override
@@ -105,29 +106,30 @@ public class DataTraffic implements Logicable {
             //Enviar el mensaje al servidor
             msg = socket.createSocket(msg);
         } catch (IOException ex) {
-            logger.info("error al mandar mensaje");
+            logger.severe("error al mandar mensaje");
             //Error conexion con el servidor
             throw new ConnectException("Error de conexion, intentalo mas tarde");
         }
         //Traducir el mensaje de vuelta
         if (msg.getMsg() == Msg.USEREXISTEXCEPTION) {
-            logger.info("Usuario existente");
+            logger.severe("Usuario existente");
             //Usuario ya existe
             throw new UserExistException("El usuario ya existe");
         } else if (msg.getMsg() == Msg.CONNECTEXCEPTION) {
-            logger.info("Error de conexion ");
+            logger.severe("Error de conexion ");
             //Error de conexion
             throw new ConnectException("Error al conectarse con la base de datos");
         } else if (msg.getMsg() == Msg.PASSWORDDONTMATCHEXCEPTION) {
-            logger.info("Contraseñas no coinciden");
+            logger.severe("Contraseñas no coinciden");
             //Error contraseñas no coinciden
             throw new PasswordDontMatchException("La contraseña no coincide");
         } else if (msg.getMsg() == Msg.TOOMANYUSERSEXCEPTION) {
-            logger.info("Demasiados usuarios");
+            logger.severe("Demasiados usuarios");
             //Error superado el limite de conexiones
             throw new TooManyUsersException("Servidor lleno, intentalo mas tarde");
         }else if(msg.getMsg()==Msg.EMAILEXISTEXCEPTION){
             //Error email coincide con la base de datos
+             logger.severe("Email ya existe");
             throw new EmailExistException("Email ya existe");
         }
         //Devolver el usuario

@@ -48,22 +48,22 @@ public class ClientSocket {
 
         try {
             socket = new Socket(SERVER, PORT);
-            logger.info("Conectado con el servidor");
+            logger.severe("Conectado con el servidor");
             oos = new ObjectOutputStream(socket.getOutputStream());
             ois = new ObjectInputStream(socket.getInputStream());
             oos.writeObject(msg);
-            logger.info("Se ha enviado un objeto al servidor");
+            logger.severe("Se ha enviado un objeto al servidor");
             mg = (Message) ois.readObject();
-            logger.info("Leyendo el objeto devuelto por el servidor");
+            logger.severe("Leyendo el objeto devuelto por el servidor");
             ois.close();
             oos.close();
             socket.close();
-            logger.info("Se ha cerrado el socket del cliente");
+            logger.severe("Se ha cerrado el socket del cliente");
         } catch (IOException ex) {
-            logger.info("Error de conexion");
+            logger.severe("Error de conexion");
             throw new ConnectException("Error de conexion, intentalo mas tarde");          
         } catch (ClassNotFoundException ex) {
-            logger.info("");
+            logger.severe("");
         }
         return mg;
     }

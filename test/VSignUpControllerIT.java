@@ -506,9 +506,12 @@ public class VSignUpControllerIT extends ApplicationTest{
         eraseText(1);
         
     }
-    
+    /**
+     * Este test valida que salta la excepcion del correo ya registrado
+     * @throws InterruptedException 
+     */
     @Test
-    public void testI_SignUp() throws InterruptedException{
+    public void testI_EmailExist() throws InterruptedException{
         clickOn("#fieldUsername");
         write("qwerty");
         clickOn("#fieldEmail");

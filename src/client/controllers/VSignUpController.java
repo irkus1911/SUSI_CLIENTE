@@ -147,7 +147,7 @@ public class VSignUpController {
                     | IncorrectEmailException | PasswordDontMatchException
                     | TooManyUsersException | IOException | UserExistException
                     | ConnectException|EmailExistException ex) {
-                logger.info("El cliente ha recibido un mensaje de error del servidor");
+                logger.severe("El cliente ha recibido un mensaje de error del servidor");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(ex.getMessage());
                 alert.show();
@@ -167,35 +167,35 @@ public class VSignUpController {
         logger.info("Iniciado el evento para comprobar la longitud del campo");
         
         if (fieldUsername.getText().trim().length() >= 50) {
-            logger.info("Excepcion maximo de caracteres username");
+            logger.severe("Excepcion maximo de caracteres username");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("El nombre de usuario ha superado los 50 caracteres");
             alert.setContentText("No se puede superar los 50 caracteres");
             alert.show();
             return false;
         } else if (fieldEmail.getText().trim().length() >= 50) {
-            logger.info("Excepcion maximo de caracteres email");
+            logger.severe("Excepcion maximo de caracteres email");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("El email ha superado los 50 caracteres");
             alert.setContentText("No se puede superar los 50 caracteres");
             alert.show();
             return false;
         } else if (fieldFullName.getText().trim().length() >= 50) {
-            logger.info("Excepcion maximo de caracteres nombre completo");
+            logger.severe("Excepcion maximo de caracteres nombre completo");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("El nombre completo ha superado los 50 caracteres");
             alert.setContentText("No se puede superar los 50 caracteres");
             alert.show();
             return false;
         } else if (fieldPassword.getText().trim().length() >= 50) {
-            logger.info("Excepcion maximo de caracteres contraseña");
+            logger.severe("Excepcion maximo de caracteres contraseña");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("La contraseña ha superado los 50 caracteres");
             alert.setContentText("No se puede superar los 50 caracteres");
             alert.show();
             return false;
         } else if (fieldConfirmPassword.getText().trim().length() >= 50) {
-            logger.info("Excepcion maximo de caracteres confirmar contraseña");
+            logger.severe("Excepcion maximo de caracteres confirmar contraseña");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("La contraseña ha superado los 50 caracteres");
             alert.setContentText("No se puede superar los 50 caracteres");
@@ -218,7 +218,7 @@ public class VSignUpController {
                 + "y la contraseña");
         
         if (!fieldUsername.getText().matches("^[a-zA-Z0-9_*.]+$")) {
-            logger.info("Excepcion caracteres username");
+            logger.severe("Excepcion caracteres username");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Campo username inválido");
             alert.setContentText("Campo username solo puede contener letras, "
@@ -226,7 +226,7 @@ public class VSignUpController {
             alert.show();
             return false;
         } else if (!fieldPassword.getText().matches("^[a-zA-Z0-9_*.]+$")) {
-            logger.info("Excepcion caracteres contraseña");
+            logger.severe("Excepcion caracteres contraseña");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Campo password inválido");
             alert.setContentText("Campo password solo puede contener letras, "
@@ -249,7 +249,7 @@ public class VSignUpController {
         logger.info("Iniciado el evento para controlar las contraseñas");
         
         if (!fieldPassword.getText().equals(fieldConfirmPassword.getText())) {
-            logger.info("Excepcion las contraseñas no coinciden");
+            logger.severe("Excepcion las contraseñas no coinciden");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("La contraseña no coincide");
             alert.setContentText("Inténtalo de nuevo");
@@ -270,7 +270,7 @@ public class VSignUpController {
         logger.info("Iniciado el evento para controlar si el campo email es valido");
         
         if (!fieldEmail.getText().matches("[\\w.]+@[\\w]+\\.[a-zA-Z]{2,4}")) {
-            logger.info("Excepcion patron de email invalido");
+            logger.severe("Excepcion patron de email invalido");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Campo email inválido");
             alert.setContentText("Campo email solo puede contener letras, números "
@@ -292,35 +292,35 @@ public class VSignUpController {
         logger.info("Iniciado el evento para controlar si el campo esta vacio");
                 
         if (fieldUsername.getText().trim().isEmpty()) {
-            logger.info("Excepcion campo vacio username");
+            logger.severe("Excepcion campo vacio username");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Introduce el nombre de usuario");
             alert.setContentText("No puedes dejar el campo vacio");
             alert.show();
             return false;
         } else if (fieldEmail.getText().trim().isEmpty()) {
-            logger.info("Excepcion campo vacio email");
+            logger.severe("Excepcion campo vacio email");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Introduce el email");
             alert.setContentText("No puedes dejar el campo vacio");
             alert.show();
             return false;
         } else if (fieldFullName.getText().trim().isEmpty()) {
-            logger.info("Excepcion campo vacio nombre completo");
+            logger.severe("Excepcion campo vacio nombre completo");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Introduce el nombre completo");
             alert.setContentText("No puedes dejar el campo vacio");
             alert.show();
             return false;
         } else if (fieldPassword.getText().trim().isEmpty()) {
-            logger.info("Excepcion campo vacio contraseña");
+            logger.severe("Excepcion campo vacio contraseña");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Introduce una contraseña");
             alert.setContentText("No puedes dejar el campo vacio");
             alert.show();
             return false;
         } else if (fieldConfirmPassword.getText().trim().isEmpty()) {
-            logger.info("Excepcion campo vacio confirmar ");
+            logger.severe("Excepcion campo vacio confirmar ");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Introduce una contraseña");
             alert.setContentText("No puedes dejar el campo vacio");
@@ -347,7 +347,7 @@ public class VSignUpController {
         try {
             root = (Parent) loader.load();
         } catch (IOException ex) {
-            logger.info("Se ha producido un error al cargarel fxml de la ventana singIn");
+            logger.severe("Se ha producido un error al cargarel fxml de la ventana singIn");
         }
 
         VSignInController controller = (VSignInController) loader.getController();
@@ -361,7 +361,7 @@ public class VSignUpController {
      * @param event representa la accion del evento handleCloseRequest
      */
     private void handleCloseRequest(WindowEvent event) {
-        logger.info("Se ha pulsado la X de la barra de titulo y se enviara un "
+        logger.severe("Se ha pulsado la X de la barra de titulo y se enviara un "
                 + "aviso de confirmacion");
         
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -372,10 +372,10 @@ public class VSignUpController {
 
         Optional<ButtonType> answer = alert.showAndWait();
         if (answer.get() == ButtonType.OK) {
-            logger.info("Se ha pulsado OK y el programa va a finalizar");
+            logger.severe("Se ha pulsado OK y el programa va a finalizar");
             stage.close();
         } else {
-            logger.info("Se ha cancelado el closeRequest");
+            logger.severe("Se ha cancelado el closeRequest");
             event.consume();
         }
 
