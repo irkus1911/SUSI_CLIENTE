@@ -59,6 +59,7 @@ public class VSignUpControllerIT extends ApplicationTest{
      * @throws InterruptedException Esta excepción saltará cuando el Thread no
      * puede hacer correctamente la acción de dormir
      */
+    @Ignore
     @Test
     public void testB_FieldsEmpty() throws InterruptedException{
         
@@ -116,7 +117,7 @@ public class VSignUpControllerIT extends ApplicationTest{
      * @throws InterruptedException Esta excepción saltará cuando el Thread no
      * puede hacer correctamente la acción de dormir
      */
-   
+   @Ignore
     @Test
     public void testC_MaxCharacterValidation() throws InterruptedException {
 
@@ -278,6 +279,7 @@ public class VSignUpControllerIT extends ApplicationTest{
      * @throws InterruptedException Esta excepción saltará cuando el Thread no
      * puede hacer correctamente la acción de dormir
      */
+    @Ignore
     @Test
     public void testD_EmailPatron() throws InterruptedException{
                 
@@ -318,6 +320,7 @@ public class VSignUpControllerIT extends ApplicationTest{
      * @throws InterruptedException Esta excepción saltará cuando el Thread no
      * puede hacer correctamente la acción de dormir
      */
+    @Ignore
     @Test
     public void testE_userPasswordPattern() throws InterruptedException{
         
@@ -381,6 +384,7 @@ public class VSignUpControllerIT extends ApplicationTest{
      * @throws InterruptedException Esta excepción saltará cuando el Thread no
      * puede hacer correctamente la acción de dormir
      */
+    @Ignore
     @Test
     public void testF_UserAlreadyExist() throws InterruptedException{
         
@@ -423,6 +427,7 @@ public class VSignUpControllerIT extends ApplicationTest{
      * @throws InterruptedException Esta excepción saltará cuando el Thread no
      * puede hacer correctamente la acción de dormir
      */
+    @Ignore
     @Test
     public void testG_PasswordMatchValidation() throws InterruptedException{
         
@@ -507,6 +512,7 @@ public class VSignUpControllerIT extends ApplicationTest{
      * @throws InterruptedException Esta excepción saltará cuando el Thread no
      * puede hacer correctamente la acción de dormir
      */
+    @Ignore
     @Test
     public void testI_SignUp() throws InterruptedException{
         
@@ -527,6 +533,23 @@ public class VSignUpControllerIT extends ApplicationTest{
         verifyThat("#logOutPane", isVisible());
         Thread.sleep(1500);
         
+    }
+    @Test
+    public void testJ_EmailFound() throws InterruptedException{
+        clickOn("#fieldUsername");
+        write("Evaluacion");
+        clickOn("#fieldEmail");
+        write("example@gmail.com");
+        clickOn("#fieldFullName");
+        write("Evaluacion");
+        clickOn("#fieldPassword");
+        write("abcd*1234");
+        clickOn("#fieldConfirmPassword");
+        write("abcd*1234");
+        clickOn("#buttonSignUp");
+        verifyThat("El email introducido ya existe", isVisible());
+        Thread.sleep(1000);
+        clickOn("Aceptar");
     }
     
 }

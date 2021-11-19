@@ -22,7 +22,7 @@
       </HBox>
       <VBox alignment="CENTER" layoutX="200.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0">
          <children>
-            <TextField fx:id="txtUsername" promptText="Username" />
+            <TextField fx:id="txtUsername" promptText="Username"/>
             <Separator opacity="0.0" prefHeight="36.0" prefWidth="200.0" />
             <PasswordField fx:id="txtPassword" promptText="Password" />
             <Separator opacity="0.0" prefHeight="49.0" prefWidth="200.0" />

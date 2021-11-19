@@ -1,9 +1,11 @@
 package client.controllers;
 
 import client.factory.LogicableFactory;
+import static java.awt.Color.red;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Logger;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -81,9 +83,11 @@ public class VSignInController {
         //Hyperlink Not a member? habilitado
         this.hlSignUp.setDisable(false);
         
-        
         //Se enfoca en el campo username
         this.txtUsername.requestFocus();
+             
+        this.txtUsername.focusedProperty().addListener(this::focusChanged);
+        this.txtPassword.focusedProperty().addListener(this::focusChanged);
         
         //Ventana no redimensionable
         stage.setResizable(false);
@@ -328,5 +332,14 @@ public class VSignInController {
         }
 
     }
+            
+        private void focusChanged(ObservableValue observable, Boolean oldValue, Boolean newValue){
+            if(newValue){
+                txtUsername.setStyle("-fx-focus-color:red;");
+                txtPassword.setStyle("-fx-focus-color:red;");
+            }else if(oldValue){
+                        logger.info("OnBlur");
+             }
+        }
 
 }
